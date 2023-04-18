@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Expense(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
     amount = models.DecimalField(decimal_places=2, max_digits=15)
     title = models.CharField(max_length=300)
     date = models.DateField()
