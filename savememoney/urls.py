@@ -38,6 +38,10 @@ def add_view(request, a: int, b: int):
     return HttpResponse(f"{a} + {b} = <b>{a + b}</b>")
 
 
+def multiply_view(request, a: int, b: int):
+    return HttpResponse(f"{a} * {b} = {a * b}")
+
+
 def api_add_view(request, a: int, b: int):
     return JsonResponse(
         {
@@ -52,6 +56,7 @@ urlpatterns = [
     path("age/<name>/<int:age>/", birthday),
     path("age/<int:age>/<name>/", birthday),
     path("add/<int:a>/<int:b>/", add_view),
+    path("mult/<int:a>/<int:b>/", multiply_view),
     path("api/add/<int:a>/<int:b>/", api_add_view),
     path("admin/", admin.site.urls),
 ]
