@@ -1,1 +1,1 @@
-@poetry run python manage.py @*
+@python manage.py %*
