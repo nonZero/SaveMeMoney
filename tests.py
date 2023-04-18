@@ -1,4 +1,7 @@
+import pytest
 from django.test.client import Client
+
+from expenses.models import Expense
 
 
 def test_add_100_200(client: Client):

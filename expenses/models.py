@@ -11,3 +11,6 @@ class Expense(models.Model):
     def __str__(self):
         return f"[#{self.id}] {self.date} ${self.amount} {self.title}"
         # return self.title
+
+    def is_expensive(self):
+        return self.amount > 20
