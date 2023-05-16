@@ -13,4 +13,4 @@ class Expense(models.Model):
         # return self.title
 
     def is_expensive(self):
-        return self.amount > 20
+        return self.amount > 200

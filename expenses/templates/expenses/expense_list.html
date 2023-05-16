@@ -1,27 +1,13 @@
 <table border="1">
     {% for object in object_list %}
-    <tr>
-        <td>{{ object.id }}</td>
-        <td>{{ object.amount }}</td>
-        <td>{{ object.title }}</td>
-        <td>{{ object.date }}</td>
-    </tr>
+        <tr>
+            <td>{{ object.id }}</td>
+            <td>
+                {{ object.amount }}
+                {{ object.is_expensive|yesno:"💸,🍪" }}
+            </td>
+            <td>{{ object.title }}</td>
+            <td>{{ object.date }}</td>
+        </tr>
     {% endfor %}
 </table>
-
-<ul>
-    <li>Shalom</li>
-    <li>the value of n is {{ n }}</li>
-    <li>the value of r is {{ r }}</li>
-    {#    <li>the value of nums is {{ nums }}</li>#}
-    <li>the value of nums is {{ nums|join:'=>' }}</li>
-    <li>the first item of nums is {{ nums.0 }}</li>
-    <li>u = {{ u }}</li>
-    <li>name = {{ u.name }}</li>
-    <li>expense = {{ e.date }}</li>
-    <li>expense = {{ e.amount }}, {{ e.is_expensive }}</li>
-    <li>expense = {{ e.amount }}, {{ e.is_expensive|yesno:"YES,no" }}</li>
-    {% for x in nums %}
-        <li>---- {{ x }}</li>
-    {% endfor %}
-</ul>
