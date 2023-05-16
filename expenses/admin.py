@@ -3,6 +3,10 @@ from django.contrib import admin
 from . import models
 
 
+@admin.register(models.Category)
+class ExpenseCategoryAdmin(admin.ModelAdmin):
+    pass
+
 @admin.register(models.Expense)
 class ExpenseModelAdmin(admin.ModelAdmin):
     list_display = (
