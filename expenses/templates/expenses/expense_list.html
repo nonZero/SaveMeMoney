@@ -2,6 +2,13 @@
     Expenses
 </h1>
 
+<form action="{% url "e:list" %}" method="get">
+    <input type="search" name="q">
+    <button>Search</button>
+</form>
+
+<a href="{% url "e:create" %}">Create</a>
+
 <table border="1">
     {% for object in object_list %}
         <tr>

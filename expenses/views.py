@@ -1,11 +1,16 @@
+from django import forms
 from django.http import HttpRequest
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 
 from expenses.models import Expense
 
 
 def expense_list_view(request: HttpRequest):
     qs = Expense.objects.all()
+    if q := request.GET.get("q"):
+        qs = qs.filter(title__icontains=q)
+
     return render(
         request,
         "expenses/expense_list.html",
@@ -13,6 +18,41 @@ def expense_list_view(request: HttpRequest):
             "object_list": qs,
         },
     )
+
+
+# class IceCreamForm(forms.Form):
+#     number_of_cones = forms.IntegerField()
+#     cream = forms.BooleanField(required=False)
+#     customer_name = forms.CharField()
+#     email_for_reciept = forms.EmailField()
+#     comments = forms.CharField(widget=forms.Textarea, required=False)
+#     date = forms.DateField()
+
+
+class ExpenseForm(forms.ModelForm):
+    class Meta:
+        model = Expense
+        fields = "__all__"
+
+
+def expense_create_view(request: HttpRequest):
+    if request.method == "POST":
+        form = ExpenseForm(request.POST)
+        if form.is_valid():
+            # o = Expense.objects.create(**form.cleaned_data)
+            o = form.save()
+            return redirect(reverse("e:detail", args=(o.id,)))
+
+    else:
+        form = ExpenseForm()
+    return render(
+        request,
+        "expenses/expense_form.html",
+        {
+            "form": form,
+        },
+    )
+
 
 def expense_detail_view(request: HttpRequest, pk: int):
     o = get_object_or_404(Expense, pk=pk)
