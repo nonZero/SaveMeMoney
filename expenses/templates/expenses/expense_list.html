@@ -1,3 +1,7 @@
+<h1>
+    Expenses
+</h1>
+
 <table border="1">
     {% for object in object_list %}
         <tr>
@@ -6,7 +10,11 @@
                 {{ object.amount }}
                 {{ object.is_expensive|yesno:"💸,🍪" }}
             </td>
-            <td>{{ object.title }}</td>
+            <td>
+                <a href="{% url "e:detail" object.id %}">
+                    {{ object.title }}
+                </a>
+            </td>
             <td>{{ object.date }}</td>
         </tr>
     {% endfor %}
