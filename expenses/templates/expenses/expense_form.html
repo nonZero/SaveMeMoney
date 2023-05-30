@@ -1,7 +1,16 @@
-<form method="post" novalidate>
-    {% csrf_token %}
-    <ul>
-    {{ form.as_ul }}
-    </ul>
-    <button>Add Expense</button>
-</form>
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+    Create Expense
+{% endblock %}
+
+{% block content %}
+    <form method="post"
+          novalidate>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+
+        <button>Add Expense</button>
+    </form>
+{% endblock %}

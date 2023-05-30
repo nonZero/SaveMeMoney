@@ -1,7 +1,16 @@
-<h1>
-    Expense #{{ object.id }}: {{ object.title }}, ${{ object.amount }}
-</h1>
-<ul>
-    <li>Date:{{ object.date }}</li>
-    <li>{{ object.description|linebreaksbr }}</li>
-</ul>
+{% extends "base.html" %}
+
+{% block title %}
+    Create Expense
+{% endblock %}
+
+{% block content %}
+    <h1>
+        Expense #{{ object.id }}: {{ object.title }}, ${{ object.amount }}
+    </h1>
+    <ul>
+        <li>Date:{{ object.date }}</li>
+        <li>{{ object.description|linebreaksbr }}</li>
+    </ul>
+
+{% endblock %}
