@@ -1,4 +1,13 @@
+{% load static %}
+
+<link rel="icon" type="image/png" href="{% static "favicon.png" %}">
+
+<link rel="stylesheet"
+      href="{% static "main.css" %}">
+
+
 <h1>
+    <img src="{% static "favicon.png" %}" alt="" height="20">
     Expenses
 </h1>
 
@@ -7,11 +16,11 @@
     <button>Search</button>
 </form>
 
-<a href="{% url "e:create" %}">Create</a>
+<a href="{% url "e:create" %}">Create...</a>
 
 <table border="1">
     {% for object in object_list %}
-        <tr>
+        <tr class="{{ object.is_expensive|yesno:"expensive,cheap" }}">
             <td>{{ object.id }}</td>
             <td>
                 {{ object.amount }}
