@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
@@ -13,6 +14,7 @@ class Category(models.Model):
 
 
 class Expense(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="expenses")
     created_at = models.DateTimeField(auto_now_add=True)
     amount = models.DecimalField(decimal_places=2, max_digits=15)
     title = models.CharField(max_length=300)

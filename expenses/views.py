@@ -19,7 +19,12 @@ class FooView(LoginRequiredMixin, View):
         assert False, "yo!!!"
 
 
-class ExpenseListView(LoginRequiredMixin, ListView):
+class ExpenseMixin(LoginRequiredMixin):
+    def get_queryset(self):
+        return super().get_queryset().filter(owner=self.request.user)
+
+
+class ExpenseListView(ExpenseMixin, ListView):
     model = Expense
     ordering = "-date"
     paginate_by = 15
@@ -31,17 +36,17 @@ class ExpenseListView(LoginRequiredMixin, ListView):
         return qs
 
 
-class ExpenseDetailView(LoginRequiredMixin, DetailView):
+class ExpenseDetailView(ExpenseMixin, DetailView):
     model = Expense
 
 
-class ExpenseCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class ExpenseCreateView(ExpenseMixin, SuccessMessageMixin, CreateView):
     model = Expense
     form_class = ExpenseForm
     success_message = "Expense %(title)s added successfully."
 
 
-class ExpenseUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class ExpenseUpdateView(ExpenseMixin, SuccessMessageMixin, UpdateView):
     model = Expense
     form_class = ExpenseForm
     success_message = "Expense %(title)s updated successfully."
@@ -52,7 +57,7 @@ class ExpenseUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     #     return resp
 
 
-class ExpenseDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class ExpenseDeleteView(ExpenseMixin, SuccessMessageMixin, DeleteView):
     model = Expense
     success_url = reverse_lazy("e:list")
 
