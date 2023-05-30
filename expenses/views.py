@@ -1,8 +1,6 @@
-from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpRequest
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse, reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import (
     ListView,
@@ -12,7 +10,7 @@ from django.views.generic import (
     DeleteView,
 )
 
-from expenses.forms import ExpenseForm, ConfirmDeleteView
+from expenses.forms import ExpenseForm
 from expenses.models import Expense
 
 
