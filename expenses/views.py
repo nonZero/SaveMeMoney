@@ -54,6 +54,26 @@ def expense_create_view(request: HttpRequest):
     )
 
 
+def expense_update_view(request: HttpRequest, pk: int):
+    o = get_object_or_404(Expense, pk=pk)
+    if request.method == "POST":
+        form = ExpenseForm(instance=o, data=request.POST)
+        if form.is_valid():
+            # o = Expense.objects.create(**form.cleaned_data)
+            o = form.save()
+            return redirect(reverse("e:detail", args=(o.id,)))
+
+    else:
+        form = ExpenseForm(instance=o)
+    return render(
+        request,
+        "expenses/expense_form.html",
+        {
+            "form": form,
+        },
+    )
+
+
 def expense_detail_view(request: HttpRequest, pk: int):
     o = get_object_or_404(Expense, pk=pk)
     return render(

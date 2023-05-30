@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block content %}
+    <div class="float-end">
+        <a class="btn btn-primary" href="{% url "e:update" object.id %}">Edit</a>
+    </div>
     <h1>
         Expense #{{ object.id }}: {{ object.title }}, ${{ object.amount }}
     </h1>

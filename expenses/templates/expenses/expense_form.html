@@ -2,15 +2,33 @@
 {% load django_bootstrap5 %}
 
 {% block title %}
-    Create Expense
+    {% if form.instance.id %}
+        Update Expense
+    {% else %}
+        Create Expense
+    {% endif %}
 {% endblock %}
 
 {% block content %}
+    <h1>
+        {% if form.instance.id %}
+            Update Expense
+        {% else %}
+            Create Expense
+        {% endif %}
+    </h1>
+
     <form method="post"
           novalidate>
         {% csrf_token %}
         {% bootstrap_form form %}
 
-        <button class="btn btn-primary">Add Expense</button>
+        <button class="btn btn-primary">
+            {% if form.instance.id %}
+                Save
+            {% else %}
+                Create
+            {% endif %}
+        </button>
     </form>
 {% endblock %}
