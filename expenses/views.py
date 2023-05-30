@@ -1,95 +1,62 @@
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpRequest
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views import View
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 
 from expenses.forms import ExpenseForm, ConfirmDeleteView
 from expenses.models import Expense
 
 
-def expense_list_view(request: HttpRequest):
-    qs = Expense.objects.all()
-    if q := request.GET.get("q"):
-        qs = qs.filter(title__icontains=q)
-
-    return render(
-        request,
-        "expenses/expense_list.html",
-        {
-            "object_list": qs,
-        },
-    )
+class FooView(View):
+    def get(self, request, *args, **kwargs):
+        assert False, "yo!!!"
 
 
-def expense_create_view(request: HttpRequest):
-    if request.method == "POST":
-        form = ExpenseForm(request.POST)
-        if form.is_valid():
-            # o = Expense.objects.create(**form.cleaned_data)
-            o = form.save()
-            messages.info(request, f"Expense #{o.id} added successfully.")
-            return redirect(reverse("e:detail", args=(o.id,)))
+class ExpenseListView(ListView):
+    model = Expense
+    ordering = "-date"
+    paginate_by = 15
 
-    else:
-        form = ExpenseForm()
-    return render(
-        request,
-        "expenses/expense_form.html",
-        {
-            "form": form,
-        },
-    )
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if q := self.request.GET.get("q"):
+            qs = qs.filter(title__icontains=q)
+        return qs
 
 
-def expense_update_view(request: HttpRequest, pk: int):
-    o = get_object_or_404(Expense, pk=pk)
-    if request.method == "POST":
-        form = ExpenseForm(instance=o, data=request.POST)
-        if form.is_valid():
-            # o = Expense.objects.create(**form.cleaned_data)
-            o = form.save()
-            messages.info(request, f"Expense #{o.id} saved successfully.")
-            return redirect(reverse("e:detail", args=(o.id,)))
-
-    else:
-        form = ExpenseForm(instance=o)
-    return render(
-        request,
-        "expenses/expense_form.html",
-        {
-            "form": form,
-        },
-    )
+class ExpenseDetailView(DetailView):
+    model = Expense
 
 
-def expense_delete_view(request: HttpRequest, pk: int):
-    o = get_object_or_404(Expense, pk=pk)
-    if request.method == "POST":
-        form = ConfirmDeleteView(data=request.POST)
-        if form.is_valid():
-            oid = o.id
-            o.delete()
-            messages.info(request, f"Expense #{oid} deleted successfully.")
-            return redirect(reverse("e:list"))
-
-    else:
-        form = ConfirmDeleteView()
-    return render(
-        request,
-        "expenses/expense_confirm_delete.html",
-        {
-            "form": form,
-            "object": o,
-        },
-    )
+class ExpenseCreateView(SuccessMessageMixin, CreateView):
+    model = Expense
+    form_class = ExpenseForm
+    success_message = "Expense %(title)s added successfully."
 
 
-def expense_detail_view(request: HttpRequest, pk: int):
-    o = get_object_or_404(Expense, pk=pk)
-    return render(
-        request,
-        "expenses/expense_detail.html",
-        {
-            "object": o,
-        },
-    )
+class ExpenseUpdateView(SuccessMessageMixin, UpdateView):
+    model = Expense
+    form_class = ExpenseForm
+    success_message = "Expense %(title)s updated successfully."
+
+    # def form_valid(self, form):
+    #     resp = super().form_valid(form)
+    #     messages.info(self.request, f"Expense #{self.object.id} added successfully.")
+    #     return resp
+
+
+class ExpenseDeleteView(SuccessMessageMixin, DeleteView):
+    model = Expense
+    success_url = reverse_lazy("e:list")
+
+    def get_success_message(self, cleaned_data):
+        return f"Expense #{self.kwargs['pk']} deleted successfully."

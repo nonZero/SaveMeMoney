@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -23,7 +24,9 @@ class Expense(models.Model):
 
     def __str__(self):
         return f"[#{self.id}] {self.date} ${self.amount} {self.title}"
-        # return self.title
+
+    def get_absolute_url(self):
+        return reverse("e:detail", args=(self.id,))
 
     def is_expensive(self):
         return self.amount > 200

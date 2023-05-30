@@ -5,9 +5,10 @@ from . import views
 app_name = "e"
 
 urlpatterns = [
-    path("", views.expense_list_view, name="list"),
-    path("create/", views.expense_create_view, name="create"),
-    path("<int:pk>/", views.expense_detail_view, name="detail"),
-    path("<int:pk>/edit/", views.expense_update_view, name="update"),
-    path("<int:pk>/delete/", views.expense_delete_view, name="delete"),
+    path("foo/", views.FooView.as_view(), name="foo"),
+    path("", views.ExpenseListView.as_view(), name="list"),
+    path("create/", views.ExpenseCreateView.as_view(), name="create"),
+    path("<int:pk>/", views.ExpenseDetailView.as_view(), name="detail"),
+    path("<int:pk>/edit/", views.ExpenseUpdateView.as_view(), name="update"),
+    path("<int:pk>/delete/", views.ExpenseDeleteView.as_view(), name="delete"),
 ]
