@@ -11,13 +11,22 @@ def expense_list_view(request: HttpRequest):
     if q := request.GET.get("q"):
         qs = qs.filter(title__icontains=q)
 
-    return render(
+    counter = int(request.COOKIES.get("counter", 0)) + 1
+    hidden_counter = int(request.session.get("counter", 0)) + 1
+    request.session["counter"] = hidden_counter
+    r = render(
         request,
         "expenses/expense_list.html",
         {
             "object_list": qs,
+            "counter": counter,
+            "hiddent_counter": hidden_counter,
         },
     )
+    r.cookies["counter"] = counter
+    r.cookies["foo"] = "bar"
+    r.cookies["theme"] = "dark"
+    return r
 
 
 # class IceCreamForm(forms.Form):
