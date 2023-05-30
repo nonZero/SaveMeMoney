@@ -1,4 +1,4 @@
-from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views import View
@@ -14,12 +14,12 @@ from expenses.forms import ExpenseForm
 from expenses.models import Expense
 
 
-class FooView(View):
+class FooView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         assert False, "yo!!!"
 
 
-class ExpenseListView(ListView):
+class ExpenseListView(LoginRequiredMixin, ListView):
     model = Expense
     ordering = "-date"
     paginate_by = 15
@@ -31,17 +31,17 @@ class ExpenseListView(ListView):
         return qs
 
 
-class ExpenseDetailView(DetailView):
+class ExpenseDetailView(LoginRequiredMixin, DetailView):
     model = Expense
 
 
-class ExpenseCreateView(SuccessMessageMixin, CreateView):
+class ExpenseCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Expense
     form_class = ExpenseForm
     success_message = "Expense %(title)s added successfully."
 
 
-class ExpenseUpdateView(SuccessMessageMixin, UpdateView):
+class ExpenseUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Expense
     form_class = ExpenseForm
     success_message = "Expense %(title)s updated successfully."
@@ -52,7 +52,7 @@ class ExpenseUpdateView(SuccessMessageMixin, UpdateView):
     #     return resp
 
 
-class ExpenseDeleteView(SuccessMessageMixin, DeleteView):
+class ExpenseDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Expense
     success_url = reverse_lazy("e:list")
 
