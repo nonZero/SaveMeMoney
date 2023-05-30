@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib import messages
 from django.http import HttpRequest
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
@@ -11,22 +12,13 @@ def expense_list_view(request: HttpRequest):
     if q := request.GET.get("q"):
         qs = qs.filter(title__icontains=q)
 
-    counter = int(request.COOKIES.get("counter", 0)) + 1
-    hidden_counter = int(request.session.get("counter", 0)) + 1
-    request.session["counter"] = hidden_counter
-    r = render(
+    return render(
         request,
         "expenses/expense_list.html",
         {
             "object_list": qs,
-            "counter": counter,
-            "hiddent_counter": hidden_counter,
         },
     )
-    r.cookies["counter"] = counter
-    r.cookies["foo"] = "bar"
-    r.cookies["theme"] = "dark"
-    return r
 
 
 # class IceCreamForm(forms.Form):
@@ -50,6 +42,7 @@ def expense_create_view(request: HttpRequest):
         if form.is_valid():
             # o = Expense.objects.create(**form.cleaned_data)
             o = form.save()
+            messages.info(request, f"Expense #{o.id} added successfully.")
             return redirect(reverse("e:detail", args=(o.id,)))
 
     else:
@@ -70,6 +63,7 @@ def expense_update_view(request: HttpRequest, pk: int):
         if form.is_valid():
             # o = Expense.objects.create(**form.cleaned_data)
             o = form.save()
+            messages.info(request, f"Expense #{o.id} saved successfully.")
             return redirect(reverse("e:detail", args=(o.id,)))
 
     else:
