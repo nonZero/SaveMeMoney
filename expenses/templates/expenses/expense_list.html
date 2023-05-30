@@ -9,7 +9,7 @@
         Expenses
     </h1>
 
-    <table border="1">
+    <table class="table table-hover table-sm">
         {% for object in object_list %}
             <tr class="{{ object.is_expensive|yesno:"expensive,cheap" }}">
                 <td>{{ object.id }}</td>
