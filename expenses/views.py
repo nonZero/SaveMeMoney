@@ -1,9 +1,9 @@
-from django import forms
 from django.contrib import messages
 from django.http import HttpRequest
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
+from expenses.forms import ExpenseForm, ConfirmDeleteView
 from expenses.models import Expense
 
 
@@ -19,21 +19,6 @@ def expense_list_view(request: HttpRequest):
             "object_list": qs,
         },
     )
-
-
-# class IceCreamForm(forms.Form):
-#     number_of_cones = forms.IntegerField()
-#     cream = forms.BooleanField(required=False)
-#     customer_name = forms.CharField()
-#     email_for_reciept = forms.EmailField()
-#     comments = forms.CharField(widget=forms.Textarea, required=False)
-#     date = forms.DateField()
-
-
-class ExpenseForm(forms.ModelForm):
-    class Meta:
-        model = Expense
-        fields = "__all__"
 
 
 def expense_create_view(request: HttpRequest):
@@ -75,10 +60,6 @@ def expense_update_view(request: HttpRequest, pk: int):
             "form": form,
         },
     )
-
-
-class ConfirmDeleteView(forms.Form):
-    are_you_sure = forms.BooleanField()
 
 
 def expense_delete_view(request: HttpRequest, pk: int):
