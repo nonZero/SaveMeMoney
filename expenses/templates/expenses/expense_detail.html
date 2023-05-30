@@ -8,6 +8,9 @@
     <div class="float-end">
         <a class="btn btn-primary" href="{% url "e:update" object.id %}">Edit</a>
     </div>
+    <div class="float-end">
+        <a class="btn btn-danger me-1" href="{% url "e:delete" object.id %}">Delete</a>
+    </div>
     <h1>
         Expense #{{ object.id }}: {{ object.title }}, ${{ object.amount }}
     </h1>

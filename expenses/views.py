@@ -77,6 +77,32 @@ def expense_update_view(request: HttpRequest, pk: int):
     )
 
 
+class ConfirmDeleteView(forms.Form):
+    are_you_sure = forms.BooleanField()
+
+
+def expense_delete_view(request: HttpRequest, pk: int):
+    o = get_object_or_404(Expense, pk=pk)
+    if request.method == "POST":
+        form = ConfirmDeleteView(data=request.POST)
+        if form.is_valid():
+            oid = o.id
+            o.delete()
+            messages.info(request, f"Expense #{oid} deleted successfully.")
+            return redirect(reverse("e:list"))
+
+    else:
+        form = ConfirmDeleteView()
+    return render(
+        request,
+        "expenses/expense_confirm_delete.html",
+        {
+            "form": form,
+            "object": o,
+        },
+    )
+
+
 def expense_detail_view(request: HttpRequest, pk: int):
     o = get_object_or_404(Expense, pk=pk)
     return render(
