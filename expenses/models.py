@@ -3,6 +3,13 @@ from django.db import models
 from django.urls import reverse
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=300, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Category(models.Model):
     name = models.CharField(max_length=300, unique=True)
 
@@ -22,6 +29,7 @@ class Expense(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.PROTECT, related_name="expenses"
     )
+    tags = models.ManyToManyField(Tag, related_name="tags", blank=True)
     description = models.TextField(blank=True)
 
     def __str__(self):

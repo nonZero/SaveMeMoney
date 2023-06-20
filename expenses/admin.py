@@ -7,6 +7,12 @@ from . import models
 class ExpenseCategoryAdmin(admin.ModelAdmin):
     pass
 
+
+@admin.register(models.Tag)
+class TagAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(models.Expense)
 class ExpenseModelAdmin(admin.ModelAdmin):
     list_display = (
