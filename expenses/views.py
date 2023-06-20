@@ -1,5 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpRequest
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import (
@@ -38,6 +40,12 @@ class ExpenseListView(ExpenseMixin, ListView):
 
 class ExpenseDetailView(ExpenseMixin, DetailView):
     model = Expense
+
+    def post(self, request: HttpRequest, *args, **kwargs):
+        o: Expense = self.get_object()
+        o.is_starred = not o.is_starred
+        o.save()
+        return redirect(o)
 
 
 class ExpenseCreateView(ExpenseMixin, SuccessMessageMixin, CreateView):

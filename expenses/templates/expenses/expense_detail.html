@@ -6,10 +6,19 @@
 
 {% block content %}
     <div class="float-end">
+        <form method="post" class="d-inline">
+            {% csrf_token %}
+            <button class="btn">
+                {% if object.is_starred %}
+                    <i class="bi-star-fill"></i>
+                {% else %}
+                    <i class="bi-star"></i>
+                {% endif %}
+            </button>
+        </form>
+
         <a class="btn btn-primary"
            href="{% url "e:update" object.id %}">Edit</a>
-    </div>
-    <div class="float-end">
         <a class="btn btn-danger me-1"
            href="{% url "e:delete" object.id %}">Delete</a>
     </div>
@@ -18,13 +27,15 @@
     </h1>
     <h2>
         Category: {{ object.category }}
+
         {% for tag in object.tags.all %}
             <span class="badge bg-black">
             {{ tag }}
             </span>
         {% endfor %}
-
     </h2>
+
+
     <ul>
         <li>Date:{{ object.date }}</li>
         <li>{{ object.description|linebreaksbr }}</li>

@@ -31,6 +31,7 @@ class Expense(models.Model):
     )
     tags = models.ManyToManyField(Tag, related_name="tags", blank=True)
     description = models.TextField(blank=True)
+    is_starred = models.BooleanField(default=False)
 
     def __str__(self):
         return f"[#{self.id}] {self.date} ${self.amount} {self.title}"
@@ -40,3 +41,12 @@ class Expense(models.Model):
 
     def is_expensive(self):
         return self.amount > 200
+
+
+# class FavouriteExpense(models.Model):
+#     expense = models.ForeignKey(Expense, ...)
+#     user = models.ForeignKey(User, ...)
+#     starred_at = models.DateTimeField(auto_now_add=True)
+#
+#     class Meta:
+#         unique_together = (("expense", "user"),)
