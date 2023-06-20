@@ -1,8 +1,9 @@
+import json
 import time
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -12,7 +13,9 @@ from django.views.generic import (
     CreateView,
     UpdateView,
     DeleteView,
+    TemplateView,
 )
+from faker import Faker
 
 from expenses.forms import ExpenseForm
 from expenses.models import Expense
@@ -74,3 +77,13 @@ class ExpenseDeleteView(ExpenseMixin, SuccessMessageMixin, DeleteView):
 
     def get_success_message(self, cleaned_data):
         return f"Expense #{self.kwargs['pk']} deleted successfully."
+
+
+class MyDemoView(TemplateView):
+    template_name = "demo.html"
+
+
+class RandomNameView(View):
+    def get(self, request, *args, **kwargs):
+        f = Faker()
+        return HttpResponse(f"<p>{f.name()}</p>")

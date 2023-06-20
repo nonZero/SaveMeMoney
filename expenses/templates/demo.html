@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Demo
+{% endblock %}
+
+{% block content %}
+
+    <h1>
+        demo
+    </h1>
+
+    <p hx-get="{% url "e:random_name" %}"
+       hx-swap="innerHTML">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur, earum excepturi
+        maiores omnis rem
+        voluptas. Adipisci aliquam architecto blanditiis consectetur optio? Asperiores culpa expedita itaque magni nulla
+        placeat rem sunt.</p>
+
+
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+
+{% endblock %}
+
+{% block page_scripts %}
+{% endblock %}
+

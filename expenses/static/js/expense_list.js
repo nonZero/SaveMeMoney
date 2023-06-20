@@ -43,10 +43,9 @@ for (const el of document.querySelectorAll('.like')) {
   el.addEventListener('click', (event) => {
     const url = el.dataset.url;
     el.parentElement.insertAdjacentHTML('beforeend', '<div class="spinner-border spinner-border-sm"></div>');
-
     const spinner = el.parentElement.lastChild;
-
     el.hidden = true;
+
     fetch(url, {
       method: 'POST',
       // For CSRF
