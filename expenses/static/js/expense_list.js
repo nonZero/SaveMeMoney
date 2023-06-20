@@ -1,5 +1,13 @@
 console.log('START JS FILE');
 
+for (const el of document.querySelectorAll('.likes')) {
+  el.addEventListener('click', (event) => {
+    const counter = el.querySelector(".counter");
+    const v = +counter.textContent;
+    counter.textContent = v + 1;
+  });
+}
+
 const h1 = document.querySelector('h1');
 
 h1.addEventListener('click', () => {
