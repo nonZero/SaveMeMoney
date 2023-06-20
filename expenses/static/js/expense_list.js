@@ -12,7 +12,7 @@ h1.addEventListener('click', () => {
   console.log('>>>> 2');
 });
 
-for (let el of document.querySelectorAll('.btn-star')) {
+for (const el of document.querySelectorAll('.btn-star')) {
   el.addEventListener('click', (event) => {
     console.log(el);
     event.preventDefault();
