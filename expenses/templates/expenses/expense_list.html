@@ -22,7 +22,7 @@
                           action="{{ object.get_absolute_url }}"
                           class="d-inline">
                         {% csrf_token %}
-                        <button class="btn btn-sm">
+                        <button class="btn btn-sm like">
                             {% if object.is_starred %}
                                 <i class="bi-star-fill"></i>
                             {% else %}
