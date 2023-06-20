@@ -19,6 +19,7 @@ from faker import Faker
 
 from expenses.forms import ExpenseForm
 from expenses.models import Expense
+from expenses.serializers import ExpenseSerializer
 
 
 class FooView(LoginRequiredMixin, View):
@@ -81,6 +82,12 @@ class ExpenseDeleteView(ExpenseMixin, SuccessMessageMixin, DeleteView):
 
 class MyDemoView(TemplateView):
     template_name = "demo.html"
+
+
+class RandomExpenseView(View):
+    def get(self, request, *args, **kwargs):
+        e = Expense.objects.order_by("?").first()
+        return JsonResponse(ExpenseSerializer(instance=e).data)
 
 
 class RandomNameView(View):

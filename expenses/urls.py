@@ -1,10 +1,14 @@
 from django.urls import path
+from rest_framework import routers
 
 from . import views
+from .api_views import ExpenseViewSet
 
 app_name = "e"
 
+
 urlpatterns = [
+    path("random/", views.RandomExpenseView.as_view(), name="random"),
     path("demo/", views.MyDemoView.as_view(), name="demo"),
     path("name/", views.RandomNameView.as_view(), name="random_name"),
     path("foo/", views.FooView.as_view(), name="foo"),
