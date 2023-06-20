@@ -1,3 +1,5 @@
+import time
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpRequest
@@ -42,10 +44,7 @@ class ExpenseDetailView(ExpenseMixin, DetailView):
     model = Expense
 
     def post(self, request: HttpRequest, *args, **kwargs):
-        import time
-
-        time.sleep(3)
-
+        time.sleep(2)
         o: Expense = self.get_object()
         o.is_starred = not o.is_starred
         o.save()

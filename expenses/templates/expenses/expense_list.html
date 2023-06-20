@@ -18,19 +18,7 @@
                 <td>#{{ object.id }}</td>
                 <td>
                     ${{ object.amount }}
-                    <form method="post"
-                          action="{{ object.get_absolute_url }}"
-                          class="d-inline">
-                        {% csrf_token %}
-                        <button class="btn btn-sm like">
-                            {% if object.is_starred %}
-                                <i class="bi-star-fill"></i>
-                            {% else %}
-                                <i class="bi-star"></i>
-                            {% endif %}
-                        </button>
-                    </form>
-
+                    <i role="button" class="like {{ object.is_starred|yesno:'bi-star-fill,bi-star' }}" data-url="{{ object.get_absolute_url }}"></i>
                 </td>
                 <td>
                     <a href="{% url "e:detail" object.id %}">

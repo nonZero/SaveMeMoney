@@ -1,4 +1,7 @@
-console.log('START JS FILE');
+const STAR_EMPTY = 'bi-star';
+const STAR_FULL = 'bi-star-fill';
+
+// console.log('START JS FILE');
 
 function getCookie(name) {
   let cookieValue = null;
@@ -38,25 +41,24 @@ h1.addEventListener('click', () => {
 
 for (const el of document.querySelectorAll('.like')) {
   el.addEventListener('click', (event) => {
-    console.log(el);
-    event.preventDefault();
-    const star = el.querySelector('.bi-star');
-    const url = el.form.action;
-    const csrftoken = getCookie('csrftoken');
-    star.classList.remove('bi-star');
-    star.classList.add('bi-arrow-repeat');
+    const url = el.dataset.url;
+    el.parentElement.insertAdjacentHTML('beforeend', '<div class="spinner-border spinner-border-sm"></div>');
+
+    const spinner = el.parentElement.lastChild;
+
+    el.hidden = true;
     fetch(url, {
       method: 'POST',
-      headers: {'X-CSRFToken': csrftoken},
+      // For CSRF
+      headers: {'X-CSRFToken': getCookie('csrftoken')},
       mode: 'same-origin',
     }).then(r => r.text()).then(s => {
-      star.classList.remove('bi-arrow-repeat');
-      star.classList.add('bi-star-fill');
+      spinner.remove();
+      el.hidden = false;
+      el.classList.toggle(STAR_EMPTY);
+      el.classList.toggle(STAR_FULL);
     });
-    console.log(star);
   });
 }
 
-// console.log(document.querySelectorAll('tr'));
-
-console.log('END JS FILE');
+// console.log('END JS FILE');
